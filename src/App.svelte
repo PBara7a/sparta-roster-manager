@@ -1,47 +1,38 @@
 <script>
-  import svelteLogo from './assets/svelte.svg';
-  import viteLogo from '/vite.svg';
-  import Counter from './lib/Counter.svelte';
+  import AddPlayerForm from './components/AddPlayerForm.svelte';
+  import PlayerList from './components/PlayerList.svelte';
+  import MatchDetails from './components/MatchDetails.svelte';
+  import { printRoster } from './lib/utils/printRoster';
+
+  const title = 'Sparta Futsal Roster';
 </script>
 
-<main>
-  <div>
-    <a href="https://vite.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+<div class="min-h-screen bg-indigo-50">
+  <header class="sticky top-0 z-10 bg-white p-4 shadow-md">
+    <h1 class="text-3xl font-extrabold text-indigo-700">{title}</h1>
+  </header>
 
-  <div class="card">
-    <Counter />
-  </div>
+  <main class="p-6 lg:p-10">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div class="space-y-8 lg:col-span-2">
+        <AddPlayerForm />
+        <PlayerList />
+      </div>
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer"
-      >SvelteKit</a
-    >, the official Svelte app framework powered by Vite!
-  </p>
+      <div class="lg:col-span-1">
+        <div class="lg:sticky lg:top-24">
+          <MatchDetails />
+        </div>
+      </div>
+    </div>
 
-  <p class="read-the-docs">Click on the Vite and Svelte logos to learn more</p>
-</main>
-
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
+    <div class="py-6">
+      <button
+        on:click={printRoster}
+        class="rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700"
+      >
+        Print Roster
+      </button>
+    </div>
+  </main>
+</div>
