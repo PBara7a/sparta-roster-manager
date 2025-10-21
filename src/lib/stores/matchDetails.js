@@ -5,6 +5,7 @@ export const customVenue = writable('');
 export const matchDate = writable('');
 export const kickoffTime = writable(''); // "HH:MM"
 export const selectedKit = writable('HOME'); // 'HOME' | 'AWAY'
+export const selectedOpponent = writable('');
 
 // Derived conveniences
 export const selectedVenueType = derived(selectedVenue, ($selectedVenue) =>
@@ -39,9 +40,19 @@ export const kitDetails = derived(selectedKit, ($selectedKit) => {
 });
 
 export const matchDetails = derived(
-  [selectedVenue, customVenue, matchDate, kickoffTime, meetingTime, selectedKit, kitDetails],
+  [
+    selectedVenue,
+    selectedOpponent,
+    customVenue,
+    matchDate,
+    kickoffTime,
+    meetingTime,
+    selectedKit,
+    kitDetails,
+  ],
   ([
     $selectedVenue,
+    $selectedOpponent,
     $customVenue,
     $matchDate,
     $kickoffTime,
@@ -50,6 +61,7 @@ export const matchDetails = derived(
     $kitDetails,
   ]) => ({
     venue: $selectedVenue === 'Other' ? $customVenue : $selectedVenue,
+    opponent: $selectedOpponent,
     date: $matchDate,
     kickoffTime: $kickoffTime,
     meetingTime: $meetingTime,

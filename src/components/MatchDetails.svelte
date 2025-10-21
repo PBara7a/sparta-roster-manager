@@ -7,6 +7,7 @@
     kickoffTime,
     selectedKit,
     meetingTime,
+    selectedOpponent,
   } from '../lib/stores/matchDetails';
   import KitBadges from './KitBadges.svelte';
 
@@ -19,6 +20,8 @@
       timeOptions.push(`${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`);
     }
   }
+
+  const opponentOptions = ['Belfast United FC', 'Dundela FC', 'Omagh FC', 'Inter FC'];
 </script>
 
 <section class="h-full rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
@@ -47,6 +50,22 @@
           aria-label="Custom venue"
         />
       {/if}
+    </div>
+
+    <!-- Opponent -->
+    <div>
+      <label for="opponent" class="block text-sm font-medium text-gray-700">Opponent</label>
+      <select
+        id="opponent"
+        class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+        bind:value={$selectedOpponent}
+        aria-label="Opponent"
+      >
+        <option value="">--</option>
+        {#each opponentOptions as opponent}
+          <option value={opponent}>{opponent}</option>
+        {/each}
+      </select>
     </div>
 
     <!-- Date -->

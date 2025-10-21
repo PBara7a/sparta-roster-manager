@@ -13,7 +13,6 @@
   export let height = 1240;
 
   const ourTeam = 'Sparta Belfast FC';
-  const opponent = 'Team we’re playing';
 </script>
 
 <!-- Fixed-size A4 landscape canvas -->
@@ -26,8 +25,8 @@
       <div class="text-xs tracking-[0.2em] uppercase opacity-70">Match</div>
       <h1 class="mt-1 text-[44px] leading-tight font-extrabold">
         {homeAway === 'HOME'
-          ? `${ourTeam} (H) vs ${opponent} (A)`
-          : `${opponent} (H) vs ${ourTeam} (A)`}
+          ? `${ourTeam} (H) vs ${matchData.opponent} (A)`
+          : `${matchData.opponent} (H) vs ${ourTeam} (A)`}
       </h1>
     </div>
 
