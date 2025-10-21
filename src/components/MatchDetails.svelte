@@ -7,8 +7,8 @@
     kickoffTime,
     selectedKit,
     meetingTime,
-    kitDetails,
   } from '../lib/stores/matchDetails';
+  import KitBadges from './KitBadges.svelte';
 
   const venueOptions = ['Shankill Leisure Centre', 'Omagh Leisure Centre', 'Other'];
 
@@ -21,7 +21,7 @@
   }
 </script>
 
-<div class="h-full rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
+<section class="h-full rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
   <h2 class="mb-4 border-b border-gray-200 pb-2 text-2xl font-bold text-gray-800">Match Details</h2>
 
   <div class="space-y-4">
@@ -78,7 +78,7 @@
 
       {#if $meetingTime}
         <div class="mt-2 rounded p-2 font-bold text-red-700" aria-live="polite">
-          {$meetingTime}
+          {`MEET AT: ${$meetingTime}`}
         </div>
       {/if}
     </div>
@@ -88,7 +88,7 @@
       <label for="kit-select" class="block text-sm font-medium text-gray-700">KIT</label>
       <select
         id="kit-select"
-        class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+        class="mt-1 mb-2 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
         bind:value={$selectedKit}
         aria-label="Kit selection"
       >
@@ -96,17 +96,7 @@
         <option value="AWAY">AWAY</option>
       </select>
 
-      <div class="mt-2 flex space-x-2" aria-live="polite">
-        {#each $kitDetails as kit}
-          <div
-            class="inline-block rounded px-2 py-1 font-bold"
-            class:border={kit.border}
-            style="background-color:{kit.bg}; color:{kit.text};"
-          >
-            {kit.part}: {kit.bg.toUpperCase()}
-          </div>
-        {/each}
-      </div>
+      <KitBadges />
     </div>
   </div>
-</div>
+</section>

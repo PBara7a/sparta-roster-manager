@@ -40,7 +40,7 @@
     </div>
     <button
       type="submit"
-      class="w-full rounded-lg bg-indigo-500 px-6 py-2 font-semibold text-white shadow-md shadow-indigo-300 transition duration-300 hover:bg-indigo-600 md:w-auto"
+      class="w-full cursor-pointer rounded-lg bg-indigo-500 px-6 py-2 font-semibold text-white shadow-md shadow-indigo-300 transition duration-300 hover:bg-indigo-600 md:w-auto"
     >
       Add Player to Roster
     </button>

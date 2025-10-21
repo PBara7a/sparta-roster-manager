@@ -19,33 +19,43 @@ export const meetingTime = derived(kickoffTime, ($kickoffTime) => {
   date.setHours(date.getHours() - 1);
   const formattedHours = String(date.getHours()).padStart(2, '0');
   const formattedMinutes = String(date.getMinutes()).padStart(2, '0');
-  return `MEET AT: ${formattedHours}:${formattedMinutes}`;
+  return `${formattedHours}:${formattedMinutes}`;
 });
 
 export const kitDetails = derived(selectedKit, ($selectedKit) => {
   if ($selectedKit === 'HOME') {
-    return [
-      { part: 'TOP', bg: 'red', text: 'white' },
-      { part: 'BOTTOM', bg: 'black', text: 'white' },
-      { part: 'SOCKS', bg: 'black', text: 'white' },
-    ];
+    return {
+      TOP: { colour: 'red', text: 'white' },
+      BOTTOM: { colour: 'black', text: 'white' },
+      SOCKS: { colour: 'black', text: 'white' },
+    };
   }
-  return [
-    { part: 'TOP', bg: 'white', text: 'black', border: true },
-    { part: 'BOTTOM', bg: 'white', text: 'black', border: true },
-    { part: 'SOCKS', bg: 'white', text: 'black', border: true },
-  ];
+
+  return {
+    TOP: { colour: 'white', text: 'black', border: true },
+    BOTTOM: { colour: 'white', text: 'black', border: true },
+    SOCKS: { colour: 'white', text: 'black', border: true },
+  };
 });
 
-// Optional: read-only snapshot of everything for places that want the whole object
 export const matchDetails = derived(
-  [selectedVenue, customVenue, matchDate, kickoffTime, selectedKit, selectedVenueType],
-  ([$selectedVenue, $customVenue, $matchDate, $kickoffTime, $selectedKit, $selectedVenueType]) => ({
-    venueType: $selectedVenueType,
-    venue: $selectedVenue,
-    venueOther: $customVenue,
+  [selectedVenue, customVenue, matchDate, kickoffTime, meetingTime, selectedKit, kitDetails],
+  ([
+    $selectedVenue,
+    $customVenue,
+    $matchDate,
+    $kickoffTime,
+    $meetingTime,
+    $selectedKit,
+    $kitDetails,
+  ]) => ({
+    venue: $selectedVenue === 'Other' ? $customVenue : $selectedVenue,
     date: $matchDate,
-    time: $kickoffTime,
-    kit: $selectedKit,
+    kickoffTime: $kickoffTime,
+    meetingTime: $meetingTime,
+    kit: {
+      type: $selectedKit,
+      details: $kitDetails,
+    },
   })
 );

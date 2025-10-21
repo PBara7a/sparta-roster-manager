@@ -75,7 +75,7 @@
   }
 </script>
 
-<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
+<section class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
   <h2 class="mb-4 text-xl font-bold text-gray-800" aria-live="polite">
     Current Roster ({$playerStore.length} Players)
   </h2>
@@ -91,4 +91,4 @@
       <PlayerCard {player} onDragStart={startDrag} onDragEnd={endDrag} />
     {/each}
   </div>
-</div>
+</section>
