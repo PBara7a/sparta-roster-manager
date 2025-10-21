@@ -1,6 +1,9 @@
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
-export const playerStore = writable([
+const LS_KEY = 'players:v1';
+
+// Default data used only the first time (or if storage is empty/corrupt)
+const DEFAULT_PLAYERS = [
   { id: 1, name: 'Matthew McErlain', number: 1, isAvailable: true },
   { id: 2, name: 'Horatiu Puica', number: 22, isAvailable: true },
   { id: 3, name: 'Darius Roohi', number: 5, isAvailable: false },
@@ -15,7 +18,42 @@ export const playerStore = writable([
   { id: 12, name: 'Daniel Hamilton', number: 9, isAvailable: true },
   { id: 13, name: 'Ryon Leyshon', number: 3, isAvailable: true },
   { id: 14, name: 'Chris Boyle', number: 18, isAvailable: false },
-]);
+];
+
+// Small helper that loads/saves JSON with error safety
+function loadFromLocalStorage(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw);
+    // sanity check: must be an array of objects with id
+    if (!Array.isArray(parsed)) return fallback;
+    return parsed;
+  } catch {
+    return fallback;
+  }
+}
+
+function saveToLocalStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+// Create a writable that persists to localStorage
+function persistedArrayStore(key, initialArray) {
+  const startValue =
+    typeof window !== 'undefined' ? loadFromLocalStorage(key, initialArray) : initialArray; // in case you ever run this outside the browser
+
+  const { subscribe, set, update } = writable(startValue);
+
+  // Persist on every change
+  subscribe((val) => {
+    if (typeof window !== 'undefined') saveToLocalStorage(key, val);
+  });
+
+  return { subscribe, set, update };
+}
+
+export const playerStore = persistedArrayStore(LS_KEY, DEFAULT_PLAYERS);
 
 export function togglePlayerAvailability(playerId) {
   playerStore.update((playerList) => {
@@ -42,11 +80,16 @@ export function removePlayerById(playerId) {
   });
 }
 
-let nextId = 15; // keep track of next ID to assign
+function computeNextId() {
+  const list = get(playerStore);
+  const maxId = list.reduce((max, player) => Math.max(max, player.id), 0);
+  return maxId + 1;
+}
+
 export function addPlayer(name, number) {
   playerStore.update((playerList) => [
     ...playerList,
-    { id: nextId++, name, number: +number, isAvailable: true },
+    { id: computeNextId(), name, number: +number, isAvailable: true },
   ]);
 }
 

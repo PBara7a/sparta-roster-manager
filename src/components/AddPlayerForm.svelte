@@ -12,7 +12,7 @@
   }
 </script>
 
-<div class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
+<section class="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
   <h2 class="mb-4 text-xl font-bold text-gray-800">Insert New Player</h2>
   <form class="space-y-4" on:submit={submit}>
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -45,4 +45,4 @@
       Add Player to Roster
     </button>
   </form>
-</div>
+</section>
