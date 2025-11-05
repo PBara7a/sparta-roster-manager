@@ -21,6 +21,9 @@
     }
   }
 
+  // Filtered meeting time options - only times before kickoff
+  $: meetingTimeOptions = $kickoffTime ? timeOptions.filter((time) => time < $kickoffTime) : [];
+
   const opponentOptions = ['Belfast United FC', 'Dundela FC', 'Omagh FC', 'Inter FC'];
 </script>
 
@@ -80,7 +83,7 @@
       />
     </div>
 
-    <!-- Time & meet -->
+    <!-- Time -->
     <div>
       <label for="match-time" class="block text-sm font-medium text-gray-700">Time</label>
       <select
@@ -94,12 +97,22 @@
           <option value={time}>{time}</option>
         {/each}
       </select>
+    </div>
 
-      {#if $meetingTime}
-        <div class="mt-2 rounded p-2 font-bold text-red-700" aria-live="polite">
-          {`MEET AT: ${$meetingTime}`}
-        </div>
-      {/if}
+    <!-- Meet -->
+    <div>
+      <label for="meet-time" class="block text-sm font-medium text-gray-700">Meet at</label>
+      <select
+        id="meet-time"
+        class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+        bind:value={$meetingTime}
+        aria-label="Meet time"
+      >
+        <option value="">--</option>
+        {#each meetingTimeOptions as time}
+          <option value={time}>{time}</option>
+        {/each}
+      </select>
     </div>
 
     <!-- Kit -->

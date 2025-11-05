@@ -4,6 +4,7 @@ export const selectedVenue = writable('Shankill Leisure Centre');
 export const customVenue = writable('');
 export const matchDate = writable('');
 export const kickoffTime = writable(''); // "HH:MM"
+export const meetingTime = writable(''); // "HH:MM"
 export const selectedKit = writable('HOME'); // 'HOME' | 'AWAY'
 export const selectedOpponent = writable('');
 
@@ -11,17 +12,6 @@ export const selectedOpponent = writable('');
 export const selectedVenueType = derived(selectedVenue, ($selectedVenue) =>
   $selectedVenue === 'Other' ? 'other' : 'preset'
 );
-
-export const meetingTime = derived(kickoffTime, ($kickoffTime) => {
-  if (!$kickoffTime) return '';
-  const [hours, minutes] = $kickoffTime.split(':').map(Number);
-  const date = new Date();
-  date.setHours(hours, minutes, 0, 0);
-  date.setHours(date.getHours() - 1);
-  const formattedHours = String(date.getHours()).padStart(2, '0');
-  const formattedMinutes = String(date.getMinutes()).padStart(2, '0');
-  return `${formattedHours}:${formattedMinutes}`;
-});
 
 export const kitDetails = derived(selectedKit, ($selectedKit) => {
   if ($selectedKit === 'HOME') {
