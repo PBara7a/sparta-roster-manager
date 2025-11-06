@@ -3,16 +3,18 @@
   import { playerStore } from '../lib/stores/players';
   import KitBadges from './KitBadges.svelte';
   import logoUrl from '../assets/sparta-logo.png?url';
-  import squadUrl from '../assets/sparta-squad.jpg?url';
+  import squadHome from '../assets/home-kit.jpg?url';
+  import squadAway from '../assets/away-kit.jpg?url';
 
   $: matchData = $matchDetails;
   $: availablePlayers = $playerStore.filter((player) => player.isAvailable);
-  $: homeAway = $selectedKit;
+  $: homeAway = $homeAway;
 
   export let width = 1754;
   export let height = 1240;
 
   const ourTeam = 'Sparta Belfast FC';
+  const squadImageUrl = $selectedKit === 'HOME' ? squadHome : squadAway;
 </script>
 
 <!-- Fixed-size A4 landscape canvas -->
@@ -84,7 +86,7 @@
 
       <!-- Squad Photo -->
       <div class="flex h-[420px] w-[760px] justify-end overflow-hidden rounded-lg">
-        <img src={squadUrl} alt="Team" class="h-full w-full object-cover" />
+        <img src={squadImageUrl} alt="Team" class="h-full w-full object-cover" />
       </div>
     </section>
   </main>

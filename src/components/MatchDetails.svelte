@@ -8,6 +8,7 @@
     selectedKit,
     meetingTime,
     selectedOpponent,
+    homeOrAway,
   } from '../lib/stores/matchDetails';
   import KitBadges from './KitBadges.svelte';
 
@@ -115,20 +116,35 @@
       </select>
     </div>
 
-    <!-- Kit -->
-    <div>
-      <label for="kit-select" class="block text-sm font-medium text-gray-700">KIT</label>
-      <select
-        id="kit-select"
-        class="mt-1 mb-2 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
-        bind:value={$selectedKit}
-        aria-label="Kit selection"
-      >
-        <option value="HOME">HOME</option>
-        <option value="AWAY">AWAY</option>
-      </select>
+    <div class="flex gap-4">
+      <!-- Home/Away -->
+      <div class="w-1/2">
+        <label for="home-away-select" class="text-sm font-medium text-gray-700">Home/Away</label>
+        <select
+          id="home-away-select"
+          class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+          bind:value={$homeOrAway}
+          aria-label="Home or Away"
+        >
+          <option value="HOME">HOME</option>
+          <option value="AWAY">AWAY</option>
+        </select>
+      </div>
 
-      <KitBadges />
+      <!-- Kit -->
+      <div class="w-1/2">
+        <label for="kit-select" class="text-sm font-medium text-gray-700">KIT</label>
+        <select
+          id="kit-select"
+          class="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+          bind:value={$selectedKit}
+          aria-label="Kit selection"
+        >
+          <option value="HOME">HOME</option>
+          <option value="AWAY">AWAY</option>
+        </select>
+      </div>
     </div>
+    <KitBadges />
   </div>
 </section>
