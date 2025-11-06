@@ -2,9 +2,44 @@
   import AddPlayerForm from '../components/AddPlayerForm.svelte';
   import PlayerList from '../components/PlayerList.svelte';
   import MatchDetails from '../components/MatchDetails.svelte';
-  import { currentView } from '../lib/stores/navigation';
+  import SelectionSheet from '../components/SelectionSheet.svelte';
+  import html2canvas from 'html2canvas';
+  import jsPDF from 'jspdf';
 
   const title = 'Sparta Futsal Roster';
+
+  let sheetEl;
+
+  async function exportRosterPDF() {
+    if (!sheetEl) return;
+
+    const clone = sheetEl.cloneNode(true);
+
+    Object.assign(clone.style, {
+      position: 'fixed',
+      left: '-100000px',
+      top: '0',
+      width: '1754px', // A4 landscape at 96dpi
+      height: '1240px', // A4 landscape at 96dpi
+      backgroundColor: '#fff',
+      display: 'block',
+    });
+
+    document.body.appendChild(clone);
+
+    try {
+      const canvas = await html2canvas(clone);
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+      const W = pdf.internal.pageSize.getWidth();
+      const H = pdf.internal.pageSize.getHeight();
+      pdf.addImage(canvas.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, W, H, undefined, 'FAST');
+      pdf.save('futsal-selection.pdf');
+    } catch (e) {
+      console.error('PDF export failed:', e);
+    } finally {
+      clone.remove();
+    }
+  }
 </script>
 
 <div class="min-h-screen bg-indigo-50">
@@ -28,11 +63,20 @@
 
     <div class="py-6">
       <button
-        on:click={() => currentView.set('export')}
+        on:click={exportRosterPDF}
         class="cursor-pointer rounded-lg bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700"
       >
         Export Roster
       </button>
     </div>
   </main>
+
+  <!-- Hidden SelectionSheet for export -->
+  <div
+    style="position: absolute; left: -9999px; top: 0; width: 1754px; height: 1240px; overflow: hidden;"
+  >
+    <div bind:this={sheetEl}>
+      <SelectionSheet width={1754} height={1240} />
+    </div>
+  </div>
 </div>
