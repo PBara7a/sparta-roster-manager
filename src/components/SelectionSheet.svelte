@@ -8,7 +8,6 @@
 
   $: matchData = $matchDetails;
   $: availablePlayers = $playerStore.filter((player) => player.isAvailable);
-  $: homeAway = $homeAway;
 
   export let width = 1754;
   export let height = 1240;
@@ -25,7 +24,7 @@
   <header class="mb-12 text-center">
     <div class="text-xs tracking-[0.2em] uppercase opacity-70">Match</div>
     <h1 class="mt-1 text-[44px] leading-tight font-extrabold">
-      {homeAway === 'HOME'
+      {matchData.homeOrAway === 'HOME'
         ? `${ourTeam} (H) vs ${matchData.opponent} (A)`
         : `${matchData.opponent} (H) vs ${ourTeam} (A)`}
     </h1>
