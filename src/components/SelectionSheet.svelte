@@ -8,12 +8,12 @@
 
   $: matchData = $matchDetails;
   $: availablePlayers = $playerStore.filter((player) => player.isAvailable);
+  $: squadImageUrl = $selectedKit === 'HOME' ? squadHome : squadAway;
 
   export let width = 1754;
   export let height = 1240;
 
   const ourTeam = 'Sparta Belfast FC';
-  const squadImageUrl = $selectedKit === 'HOME' ? squadHome : squadAway;
 </script>
 
 <!-- Fixed-size A4 landscape canvas -->
