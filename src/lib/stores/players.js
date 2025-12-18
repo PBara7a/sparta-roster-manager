@@ -1,6 +1,6 @@
 import { get, writable } from 'svelte/store';
 
-const LS_KEY = 'players:v1';
+const LS_KEY = 'players:v2';
 
 // Default data used only the first time (or if storage is empty/corrupt)
 const DEFAULT_PLAYERS = [
@@ -18,6 +18,8 @@ const DEFAULT_PLAYERS = [
   { id: 12, name: 'Daniel Hamilton', number: 9, isAvailable: true },
   { id: 13, name: 'Ryon Leyshon', number: 3, isAvailable: true },
   { id: 14, name: 'Chris Boyle', number: 18, isAvailable: false },
+  { id: 15, name: 'Mark Booth', number: 23, isAvailable: true },
+  { id: 16, name: 'Alex Bolbot', number: 44, isAvailable: true },
 ];
 
 // Small helper that loads/saves JSON with error safety
